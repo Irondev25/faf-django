@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h3>Award Details: </h3>
+<p><b>Award Title: </b>{{award.award_title}}</p>
+<p><b>Date Awarded: </b>{{award.award_date}}</p>
+<p><b>Detail: </b>{{award.award_details}}</p>
+{% if award.certificate %}
+<p><b>Certificates: </b><a href="{{award.certificate.url}}" target="_blank">Open</a></p>
+{% endif %}
+{% endblock %}

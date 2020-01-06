@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h2>Profile</h2>
+{% if user.profile_pic %}
+<img src="{{user.profile_pic.url}}" alt="ops" height="150" width="150">
+{% else %}
+<img src="https://www.trzcacak.rs/myfile/detail/32-327033_generic-profile-picture-png.png" alt="ops" height="150" width="150">
+{% endif %}
+<p>Username: {{user.username}}</p>
+<p>First Name: {{user.first_name}}</p>
+<p>Middle Name: {{user.middle_name}}</p>
+<p>last_name: {{user.last_name}}</p>
+<p>Email: {{user.email}}</p>
+<p>Date Joined: {{user.doj}}</p>
+<p>Date of Birth: {{user.dob}}</p>
+<p>Mobile Number: {{user.mobile_num}}</p>
+<p>Sex: {{user.sex_verbose}}</p>
+<p>Department: {{user.department.department_name}}</p>
+<p></p>
+{% endblock %}

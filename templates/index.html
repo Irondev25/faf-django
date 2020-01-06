@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h1>Welcome to Faculty Achivement Forum</h1>
+<form action="" method="get">
+    {% csrf_token %}
+    {{form|crispy}}
+    <input type="submit" value="Submit" class="btn btn-primary">
+</form>
+<div id="showTeach" class="card" style="margin-top: 20px;">
+    <div class="card-header">
+        Select Teacher
+    </div>
+    <ul class="list-group list-group-flush">
+        {% for teach in teacher %}
+        <li class="list-group-item">{{teach}} - {{teach.department.department_name}} <a href="{% url 'achivement-index' teach.id %}" style="float: right;" target="_blank"><button class="btn btn-primary">Show</button></a></li>
+        {% empty %}
+        <li class="list-group-item">No Teachers Available</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

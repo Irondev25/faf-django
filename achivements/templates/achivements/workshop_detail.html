@@ -1,0 +1,11 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h3>Workshop Details: </h3>
+<p><b>Workshop Topic: </b>{{workshop.topic}}</p>
+<p><b>Date: </b>{{workshop.date}}</p>
+<p><b>Type: </b>{{workshop.workshop_type}}</p>
+<p><b>Location: </b>{{workshop.location}}</p>
+{% if workshop.certificate.url %}
+<p><b>Certificates: </b><a href="{{workshop.certificate.url}}" target="_blank">Open</a></p>
+{% endif %}
+{% endblock %}

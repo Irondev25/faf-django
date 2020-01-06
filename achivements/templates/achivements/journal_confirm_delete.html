@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h3>Delete Journal</h3>
+<form action="" method="post">
+    {% csrf_token %}
+    <p>Are you sure you want to delete "{{object}}"?</p>
+    <input class="btn btn-danger" type="Submit" value="Confirm">
+    <a href="{% url 'teacher-home' %}"><input class="btn btn-primary" type="button" value="Cancle"></a>
+</form>
+{% endblock %}

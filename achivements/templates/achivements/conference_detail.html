@@ -1,0 +1,11 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h3>Conference Details: </h3>
+<p><b>Conference Name: </b>{{conference.name}}</p>
+<p><b>Paper Title: </b>{{conference.title}}</p>
+<p><b>Conference Date: </b>{{conference.date}}</p>
+<p><b>Type: </b>{{conference.conference_type}}</p>
+{% if conference.certificate %}
+<p><b>Certificates: </b><a href="{{conference.certificate.url}}">Open</a></p>
+{% endif %}
+{% endblock %}

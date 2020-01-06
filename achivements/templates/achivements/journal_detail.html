@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h3>Journal Details: </h3>
+<p><b>Journal Title: </b>{{journal.journal_title}}</p>
+<p><b>Paper Title: </b>{{journal.journal_title}}</p>
+<p><b>Date: </b>{{journal.date}}</p>
+<p><b>Type: </b>{{journal.journal_type}}</p>
+<p><b>Impact Factor: </b>{{journal.impact_factor}}</p>
+{% if journal.certificate %}
+<p><b>Certificates: </b><a href="{{journal.certificate.url}}" target="_blank">Open</a></p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,212 @@
+{% extends "base_generic.html" %}
+
+{% block style %}
+<style>
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+
+    /* Style the buttons that are used to open the tab content */
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+        background-color: #ddd;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+        background-color: #ccc;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1 style="align-items: center;">My Achivements</h1>
+
+<div class="tab">
+    <button class="tablinks" id="defaultOpen" onclick="openAchivement(event, 'Award')">Awards</button>
+    <button class="tablinks" onclick="openAchivement(event, 'Conference')">Conference</button>
+    <button class="tablinks" onclick="openAchivement(event, 'Journal')">Journal</button>
+    <button class="tablinks" onclick="openAchivement(event, 'Workshop')">Workshop</button>
+</div>
+
+<div id="Award" class="tabcontent">
+    {% if user.award_set.all %}
+    <table border="0">
+        {% for award in user.award_set.all %}
+        <tr>
+            <!-- <td>{{award.award_title}}</td>
+            <td><a href="{% url 'award-detail' user.id award.pid %}"><button class="btn btn-primary">Show</button></a>
+            </td> -->
+            <div class="jumbotron">
+                <p><b>Award Title: </b>{{award.award_title}}</p>
+                <p><b>Date Awarded: </b>{{award.award_date}}</p>
+                <p><b>Detail: </b>{{award.award_details}}</p>
+                {% if award.certificate %}
+                <p><b>Certificates: </b><a href="{{award.certificate.url}}" target="_blank">Open</a></p>
+                {% endif %}
+                <a href="{% url 'award-update' user.id award.pid %}"><button class="btn btn-primary">Edit</button></a>
+                <a href="{% url 'award-delete' user.id award.pid %}"><button class="btn btn-danger">Delete</button></a>
+            </div>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No Awards Available</p>
+    {% endif %}
+</div>
+
+<div id="Conference" class="tabcontent">
+    {% if user.conference_set.all %}
+    <table border="0">
+        {% for conference in user.conference_set.all %}
+        <tr>
+            <div class="jumbotron">
+                <p><b>Conference Name: </b>{{conference.name}}</p>
+                <p><b>Paper Title: </b>{{conference.title}}</p>
+                <p><b>Conference Date: </b>{{conference.date}}</p>
+                <p><b>Type: </b>{{conference.conference_type_verbose}}</p>
+                {% if conference.certificate %}
+                <p><b>Certificates: </b><a href="{{conference.certificate.url}}">Open</a></p>
+                {% endif %}
+                <a href="{% url 'conference-update' user.id conference.pid %}"><button class="btn btn-primary">Edit</button></a>
+                <a href="{% url 'conference-delete' user.id conference.pid %}"><button class="btn btn-danger">Delete</button></a>
+            </div>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No Conference Available</p>
+    {% endif %}
+</div>
+
+<div id="Journal" class="tabcontent">
+    {% if user.journal_set.all %}
+    <table border="0">
+        {% for journal in user.journal_set.all %}
+        <tr>
+            <div class="jumbotron">
+                <p><b>Journal Title: </b>{{journal.journal_title}}</p>
+                <p><b>Paper Title: </b>{{journal.journal_title}}</p>
+                <p><b>Date: </b>{{journal.date}}</p>
+                <p><b>Type: </b>{{journal.journal_type_verbose}}</p>
+                <p><b>Impact Factor: </b>{{journal.impact_factor}}</p>
+                {% if journal.certificate %}
+                <p><b>Certificates: </b><a href="{{journal.certificate.url}}" target="_blank">Open</a></p>
+                {% endif %}
+                <a href="{% url 'journal-update' user.id journal.pid %}"><button class="btn btn-primary">Edit</button></a>
+                <a href="{% url 'journal-delete' user.id journal.pid %}"><button class="btn btn-danger">Delete</button></a>
+            </div>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No Journal Available</p>
+    {% endif %}
+</div>
+
+<div id="Workshop" class="tabcontent">
+    {% if user.workshop_set.all %}
+    <table border="0">
+        {% for workshop in user.workshop_set.all %}
+        <tr>
+            <div class="jumbotron">
+                <p><b>Workshop Topic: </b>{{workshop.topic}}</p>
+                <p><b>Date: </b>{{workshop.date}}</p>
+                <p><b>Type: </b>{{workshop.workshop_type_verbose}}</p>
+                <p><b>Location: </b>{{workshop.location}}</p>
+                {% if workshop.certificate %}
+                <p><b>Certificates: </b><a href="{{workshop.certificate.url}}" target="_blank">Open</a></p>
+                {% endif %}
+                <a href="{% url 'workshop-update' user.id workshop.pid %}"><button class="btn btn-primary">Edit</button></a>
+                <a href="{% url 'workshop-delete' user.id workshop.pid %}"><button class="btn btn-danger">Delete</button></a>
+            </div>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No Awards Available</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    document.getElementById("defaultOpen").click();
+    function openAchivement(evt, Achivement) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the current tab, and add an "active" class to the button that opened the tab
+        document.getElementById(Achivement).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+</script>
+{% endblock %}
+
+{% block filters %}
+<h3>Filters</h3>
+<ul>
+    <li>Award
+        <ul>
+            {% for year in user.award_years %}
+            <li><a href="{% url 'award-filter' user.pk year %}">{{year}}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>Conference
+        <ul>
+            {% for year in user.conference_years %}
+            <li><a href="{% url 'conference-filter' user.pk year %}">{{year}}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        Journal
+        <ul>
+            {% for year in user.journal_years %}
+            <li><a href="{% url 'journal-filter' user.pk year %}">{{year}}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        Workshop
+        <ul>
+            {% for year in user.workshop_years %}
+            <li><a href="{% url 'workshop-filter' user.pk year %}">{{year}}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+</ul>
+{% endblock %}

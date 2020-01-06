@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+{% block content %}
+{% if not user.is_authenticated %}
+<h1>{{faculty}}</h1>
+{% endif %}
+<h1>Award(s) in year: {{year}}</h1>
+{% for award in awards %}
+<div class="jumbotron">
+    <p><b>Award Title: </b>{{award.award_title}}</p>
+    <p><b>Date Awarded: </b>{{award.award_date}}</p>
+    <p><b>Detail: </b>{{award.award_details}}</p>
+    {% if award.certificate %}
+    <p><b>Certificates: </b><a href="{{award.certificate.url}}" target="_blank">Open</a></p>
+    {% endif %}
+    {% if user.is_authenticated %}
+    <a href="{% url 'award-update' user.id award.pid %}"><button class="btn btn-primary">Edit</button></a>
+    <a href="{% url 'award-delete' user.id award.pid %}"><button class="btn btn-danger">Delete</button></a>
+    {% endif %}
+</div>
+{% endfor %}
+{% endblock %}

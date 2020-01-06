@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+{% block content %}
+{% if not user.is_authenticated %}
+<h1>{{faculty}}</h1>
+{% endif %}
+<h1>Conference(s) in year: {{year}}</h1>
+{% for conference in conferences %}
+<div class="jumbotron">
+    <p><b>Conference Name: </b>{{conference.name}}</p>
+    <p><b>Paper Title: </b>{{conference.title}}</p>
+    <p><b>Conference Date: </b>{{conference.date}}</p>
+    <p><b>Type: </b>{{conference.conference_type}}</p>
+    {% if conference.certificate %}
+    <p><b>Certificates: </b><a href="{{conference.certificate.url}}">Open</a></p>
+    {% endif %}
+    {% if user.is_authenticated %}
+    <a href="{% url 'conference-update' user.id conference.pid %}"><button class="btn btn-primary">Edit</button></a>
+    <a href="{% url 'conference-delete' user.id conference.pid %}"><button class="btn btn-danger">Delete</button></a>
+    {% endif %}
+</div>
+{% endfor %}
+{% endblock %}

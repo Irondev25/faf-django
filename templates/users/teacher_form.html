@@ -1,0 +1,32 @@
+{% extends "base_generic.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <h1>Create New Faculty</h1>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" value="submit" class="btn btn-primary">
+            </form>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    $(function () {
+        $("#id_dob").datepicker({
+            format: 'yyyy-mm-dd',
+        });
+    });
+    $(function () {
+            $("#id_doj").datepicker({
+                format: 'yyyy-mm-dd',
+            });
+        });
+</script>
+{% endblock %}

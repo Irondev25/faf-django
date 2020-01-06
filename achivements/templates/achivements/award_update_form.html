@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h3>Update Award</h3>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form|crispy}}
+            <input type="submit" value="Update" class="btn btn-primary">
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    $(function () {
+        $("#id_award_date").datepicker({
+            format: 'yyyy-mm-dd',
+        });
+    });
+</script>
+{% endblock %}

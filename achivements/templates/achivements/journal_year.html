@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+{% block content %}
+{% if not user.is_authenticated %}
+<h1>{{faculty}}</h1>
+{% endif %}
+<h1>Journal(s) in year: {{year}}</h1>
+{% for journal in journals %}
+<div class="jumbotron">
+    <p><b>Journal Title: </b>{{journal.journal_title}}</p>
+    <p><b>Paper Title: </b>{{journal.journal_title}}</p>
+    <p><b>Date: </b>{{journal.date}}</p>
+    <p><b>Type: </b>{{journal.journal_type}}</p>
+    <p><b>Impact Factor: </b>{{journal.impact_factor}}</p>
+    {% if journal.certificate %}
+    <p><b>Certificates: </b><a href="{{journal.certificate.url}}" target="_blank">Open</a></p>
+    {% endif %}
+    {% if user.is_authenticated %}
+    <a href="{% url 'journal-update' user.id journal.pid %}"><button class="btn btn-primary">Edit</button></a>
+    <a href="{% url 'journal-delete' user.id journal.pid %}"><button class="btn btn-danger">Delete</button></a>
+    {% endif %}
+</div>
+{% endfor %}
+{% endblock %}

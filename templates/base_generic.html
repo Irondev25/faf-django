@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block title %}<title>Local Library</title>{% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    
+    <!-- Fengyuan Chen's Datepicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css"
+        integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"
+        integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
+    <!-- Add additional CSS in static file -->
+    {% load static %}
+    <!-- <link rel="stylesheet" href="{% static 'css/styles.css' %}"> -->
+    <!-- font awesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+        integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+        crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+        integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+        crossorigin="anonymous"></script>
+    {% block style %}
+    {% endblock %}
+</head>
+
+<body>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="{% url "index" %}">Faculty Achivement Forum</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        
+            
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a href="{% url "teacher-home" %}" class="nav-link">My Achivements</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Create Achivements
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'award-create' user.id %}">Create Award</a>
+                            <a class="dropdown-item" href="{% url 'conference-create' user.id %}">Create Conference</a>
+                            <!-- <div class="dropdown-divider"></div> -->
+                            <a class="dropdown-item" href="{% url 'journal-create' user.id %}">Create Journal</a>
+                            <a href="{% url 'workshop-create' user.id %}" class="dropdown-item">Create Workshop</a>
+                        </div>
+                    </li>
+                    {% comment %}
+                    {% if not user.is_anonymous %}
+                    {% if user.is_hod %}
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Change Hod</a>
+                    </li>
+                    {% endif %}
+                    {% endif %}
+                    {% endcomment %}
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="{% url "teacher-create" %}" class="nav-link">Create Profile</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a href="{% url "teacher-profile" user.id %}" class="nav-link">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "teacher-update" user.id %}">Update Profile <span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "change_password" %}">Change Password</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "logout" %}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="{% url "login" %}" class="nav-link">Login</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </div>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <li class="{{ message.tags }}">{{ message }}</li>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2">
+                <!-- {% block sidebar %}
+                {% if user.is_authenticated %}
+                <ul class="sidebar-nav">
+                    <li><a href="">Awards</a></li>
+                    <li><a href="">Journal</a></li>
+                    <li><a href="">Conference</a></li>
+                    <li><a href="">Workshop</a></li>
+                </ul>
+                {% endif %}
+                <ul class="sidebar-nav">
+                    {% if user.is_authenticated %}
+                        {% if user.is_hod %}
+                        <li><a href="">Change Hod</a></li>
+                        {% endif %}
+                        <li><a href="{% url "teacher-update" user.id %}">Update Account</a></li>
+                        <li><a href="{% url "change_password" %}">Change Password</a></li>
+                        <li><a href="{% url "logout" %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'teacher-create' %}">Create New Account</a></li>
+                        <li><a href="{% url "login" %}">Login</a></li>
+                    {% endif %}
+                </ul>
+                {% endblock %} -->
+                <!-- <div class="wrapper">
+                    <nav id="sidebar">
+                        <div class="sidebar-header">
+                            <h3>Menu</h3>
+                        </div>
+                        <ul class="list-unstyled"></ul>
+                    </nav>
+                </div> -->
+            </div>
+            <div class="col-sm-8 ">{% block content %}{% endblock %}</div>
+            <div class="col-sm-2">
+                {% block filters %}
+                {% endblock %}
+            </div>
+            {% block pagination %}
+            {% if is_paginated %}
+            <div class="pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="page-current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj.has_next %}
+                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                </span>
+            </div>
+            {% endif %}
+            {% endblock %}
+        </div>
+    </div>
+    {% block script %}
+    
+    {% endblock %}
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script> -->
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+
+    <script>
+    $('.alert').alert();
+    </script>
+    {% block footer %}
+    <footer class="footer" style="position: fixed; left: 0; bottom: 0;width: 20%; text-align: center;background-color: #363232;color: white;">
+        <div class="container">
+            <a href="https://www.github.com/irondev25" style="color: white;" target="_blank"><span>&copy;Irondev25</span></a>
+        </div>
+    </footer>
+    {% endblock %}
+</body>
+
+</html>
