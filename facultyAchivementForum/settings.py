@@ -25,7 +25,7 @@ SECRET_KEY = 'ly3z*y*#03tw(zfs)xf2q1&n&jr=%c_(80twph&+w8-rqx8)7e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['Irondev25.pythonanywhere.com']
 
 
 # Application definition
@@ -82,10 +82,10 @@ WSGI_APPLICATION = 'facultyAchivementForum.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'faf',
-        'USER': 'root',
-        'PASSWORD': '3006',
-        'HOST': 'localhost',
+        'NAME': 'Irondev25$faf',
+        'USER': 'Irondev25',
+        'PASSWORD': 'mysql@3006',
+        'HOST': 'Irondev25.mysql.pythonanywhere-services.com',
         'PORT': '3306',
         'OPTIONS': {
                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
@@ -120,12 +120,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 #EMAIL CONFIG
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'facultyachivementforum@gmail.com'
-EMAIL_HOST_PASSWORD = 'FacultyAchivementForum3000'
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+SENDGRID_API_KEY = "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"
+
+SENDGRID_SANDBOX_MODE_IN_DEBUG=False
 
 
 # Internationalization

@@ -12,6 +12,7 @@ from .forms import TeacherChangeForm,TeacherCreationForm
 
 # Create your views here.
 
+@login_required(login_url=reverse_lazy('login'))
 def welcome_faculty(request):
     return render(request,'users/teacher_home.html')
 

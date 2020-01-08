@@ -12,8 +12,12 @@
         Select Teacher
     </div>
     <ul class="list-group list-group-flush">
-        {% for teach in teacher %}
-        <li class="list-group-item">{{teach}} - {{teach.department.department_name}} <a href="{% url 'achivement-index' teach.id %}" style="float: right;" target="_blank"><button class="btn btn-primary">Show</button></a></li>
+    {% for teach in teacher %}
+        {% if not teach.is_superuser %}
+        <li class="list-group-item">{{teach}} - {{teach.department.department_name}} <a
+                href="{% url 'achivement-index' teach.id %}" style="float: right;" target="_blank"><button
+                    class="btn btn-primary">Show</button></a></li>
+        {% endif %}
         {% empty %}
         <li class="list-group-item">No Teachers Available</li>
         {% endfor %}

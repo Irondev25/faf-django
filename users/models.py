@@ -35,14 +35,14 @@ class Teacher(AbstractUser):
     )
     sex = models.CharField(max_length=1,choices=SEX_CHOICE,default='m')
     department = models.ForeignKey('Department',on_delete=models.SET_NULL,null=True)
-
+    """
     @property
     def is_hod(self):
-        if self.department.hodid is not None:
+        if self.department.hodid.id is not None:
             if self.department.hodid.id == self.id:
                 return True
         return False
-    
+    """
     @property
     def award_years(self):
         return get_award_year(self)
