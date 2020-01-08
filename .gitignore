@@ -1,1 +1,4 @@
+*.pycsendgriGd.env
 *.pyc
+./achivements/__pycache__/*
+./users/__pycache__/*
